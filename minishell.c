@@ -6,11 +6,13 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 18:14:26 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 18:14:28 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:26:40 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 int	g_exit_status = 0;
 
@@ -27,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		data->lexar = NULL;
-		data->line = readline("minishell:> ");
+		data->line = readline("🐚:> "); 
 		if (data->line == NULL)
 			break ;
 		add_history(data->line);

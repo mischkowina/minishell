@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:16:58 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 18:26:24 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:32:30 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	exec_prep(t_list *sec, t_parser *parser)
 	int		count;
 
 	count = open_files_count_cmds(parser, sec);
-	if (parser->input_fd < 0 || parser->output_fd < 0)
+	if (parser->input_fd < 0 || parser->output_fd < 0 || count == 0)
 		return (0);
 	if (create_command_array(count, parser, sec) == 0)
 		return (0);

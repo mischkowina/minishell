@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 14:22:40 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 17:16:27 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:00:34 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,17 @@ int	here_doc(t_parser *parser, char *lim)
 {
 	char	*tmp;
 	int		fd;
+	int		test;
 
 	tmp = NULL;
 	fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT, 0666);
-	while (1 && fd >= 0)
+	test = here_doc_fork(lim, tmp, fd) != 0;
+	if (test != 0)
 	{
-		tmp = readline("> ");
-		if (!tmp || ft_strncmp(tmp, lim, ft_strlen(tmp) + 1) == 0)
-			break ;
-		ft_putstr_fd(tmp, fd);
-		ft_putchar_fd('\n', fd);
-		free(tmp);
+		if (test == -1)
+			ft_error(parser, 1, NULL, "<<: heredoc failed");
+		close(fd);
+		return (-1);
 	}
 	if (tmp)
 		free(tmp);
@@ -95,6 +95,34 @@ int	here_doc(t_parser *parser, char *lim)
 	else
 		unlink("/tmp/.heredoc");
 	return (fd);
+}
+
+int	here_doc_fork(char *lim, char *tmp, int fd)
+{
+	pid_t	pid;
+	int		status;
+
+	status = 0;
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		while (1 && fd >= 0)
+		{
+			tmp = readline("> ");
+			if (!tmp || ft_strncmp(tmp, lim, ft_strlen(tmp) + 1) == 0)
+				exit(0);
+			ft_putstr_fd(tmp, fd);
+			ft_putchar_fd('\n', fd);
+			free(tmp);
+		}
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, signal_handler_parent);
+	return (status);
 }
 
 /**

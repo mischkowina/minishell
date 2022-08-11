@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 11:37:06 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 10:55:06 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:51:24 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		close_pipe_fd(t_parser *parser);
 int		is_infile(char *line);
 int		infile(char *file, t_parser *parser, char *filemode);
 int		here_doc(t_parser *parser, char *lim);
+int		here_doc_fork(char *lim, char *tmp, int fd);
 int		open_infile(t_parser *parser, char *filename);
 
 int		is_outfile(char *line);

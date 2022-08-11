@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 18:14:03 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 18:50:24 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:22:51 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@
 # include <fcntl.h> /// For Open 
 # include <signal.h>  /// For Signals
 # include <sys/wait.h>  /// For Wait
-# include \
-</Users/smischni/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include \
-</Users/smischni/goinfre/.brew/opt/readline/include/readline/history.h>
+# include </Users/smischni/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/smischni/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <sys/stat.h>  /// For Using WEXITSTATUS
 # include <limits.h> //for PATH_MAX
 /* Libft Library */
