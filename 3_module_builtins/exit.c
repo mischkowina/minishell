@@ -6,12 +6,22 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:18:01 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 17:18:04 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:03:12 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
+/**
+ * Function to reproduce the behaviour of exit. Prints exit to the STDOUT
+ * and terminates the shell, after freeing all allocated memory and closing all
+ * open fds. Exits with either the integer specified in the first argument, or
+ * with the current value of the global exit status.
+ * @param data [t_data *] Struct containing all minishell variables.
+ * @param flag_pipe [int] Signifies if there is a pipe, since some builtins 
+ * are not executed when piping.
+ * @return [int] 1 or none at success, 0 at failure.
+*/
 int	ft_exit(t_data *data, int flag_pipe)
 {
 	t_parser	*parser;
@@ -41,6 +51,13 @@ int	ft_exit(t_data *data, int flag_pipe)
 	exit(exit_value);
 }
 
+/**
+ * Function to free all remaining allocated memory and close all open fds.
+ * @param data [t_data *] Struct containing all minishell variables.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @param env [t_env *] List containing the environmental variables.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	at_exit(t_data *data, t_parser *parser, t_env *env)
 {
 	free_str_array(parser->command);
@@ -60,6 +77,11 @@ int	at_exit(t_data *data, t_parser *parser, t_env *env)
 	return (1);
 }
 
+/**
+ * Checks if the argument handed over in str is fully numeric.
+ * @param str [char *] String containing an argument of exit.
+ * @return [int] 1 if it is numeric, 0 if not.
+*/
 int	exit_is_numeric_str(char *str)
 {
 	int		i;

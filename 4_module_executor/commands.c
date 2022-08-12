@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 14:31:21 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 17:17:49 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:57:49 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 /**
  * Takes all list elements that are not in- or outfiles and copies them in a
  * string array to be handed over to execve().
- * Finally, looks if an executable for the command exists and adds its path
- * to the first string of the command array. If there is no executable, it
- * leaves the first string as is, in case it is a binary outside of PATH.
+ * Checks whether the first command input is a builtin or the path of a valid
+ * executable. If not, searches in PATH for a respective excecutable.
  * @param count [int] Number of strings to be allocated.
  * @param parser [t_parser *] Struct containing parsed input & relevant values.
  * @param sec [t_list *] List containing each word of the current input section.
- * @return [int] 1 at success, 0 at failure.
+ * @return [int] 1 at success, 0 if the command input is invalid.
 */
 int	create_command_array(int count, t_parser *parser, t_list *sec)
 {
@@ -54,8 +53,8 @@ int	create_command_array(int count, t_parser *parser, t_list *sec)
 
 /**
  * Checks if there is an executable for the command (first string in the command
- * array) in PATH. If not, it leaves the string as is, in case it is a binary 
- * with a specified path.
+ * array) in PATH. If not, it leaves the string as is, else it adds the full
+ * path to the command.
  * @param parser [t_parser *] Struct containing parsed input & relevant values.
  * @return [int] 1 at success, 0 at failure.
 */
@@ -88,6 +87,14 @@ int	add_path(t_parser *parser)
 	return (0);
 }
 
+/**
+ * Checks if the first string of the command array is the path to an executable
+ * already.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @param cmd [char *] String containing the name of the command / executable.
+ * @return [int] 2 if it is a valid executable, 1 if it is invalid, 0 if it's
+ * not and executable
+*/
 int	is_exec(t_parser *parser, char *cmd)
 {
 	if (ft_strncmp("./", cmd, 2) == 0 || ft_strncmp("/", cmd, 1) == 0

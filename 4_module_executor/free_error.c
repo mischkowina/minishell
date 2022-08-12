@@ -6,12 +6,25 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:16:12 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 17:16:15 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:09:36 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
+/**
+ * Function to throw error messages in case the input cannot be executed.
+ * Closes the open fds and sets the global exit status to the according exit
+ * code. Then throws an error message, either the one from perror or a customized
+ * message handed over.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @param err_code [int] Exit code of the last command, to be saved in global
+ * variable.
+ * @param name [char *] Name of the command/file/.. that caused the error.
+ * @param cust_mes [char *] Customized error message to throw if there is no 
+ * input from errno.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	ft_error(t_parser *parser, int err_code, char *name, char *cust_mes)
 {
 	close_pipe_fd(parser);

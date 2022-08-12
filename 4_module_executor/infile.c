@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 14:22:40 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/11 16:00:34 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:52:06 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	infile(char *file, t_parser *parser, char *filemode)
 }
 
 /**
- * Opens a temporary document and writes the command line input into it until
- * the delimiter string or the end of file (CTRL + D) is identified.
+ * Opens a temporary document and forks for a child process to write into it.
  * Then it opens the file again as input file for the following commands and
  * deletes it after closing the fd.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
  * @param lim [char *] String representing the delimiter, which stops user input.
  * @return [int] Returns the fd of the open heredoc, or -1 in case of error.
 */
@@ -83,6 +83,7 @@ int	here_doc(t_parser *parser, char *lim)
 		if (test == -1)
 			ft_error(parser, 1, NULL, "<<: heredoc failed");
 		close(fd);
+		unlink("/tmp/.heredoc");
 		return (-1);
 	}
 	if (tmp)
@@ -97,6 +98,16 @@ int	here_doc(t_parser *parser, char *lim)
 	return (fd);
 }
 
+/**
+ * Forks and creates a child process which reads from the command line into a
+ * temporary file. In this child process, CTRL+C is executed to terminate.
+ * Reads from the command line into the file, until the delimiter, EOF or SIGINT
+ * is encountered. In case of SIGINT, it returns a non-zero integer.
+ * @param lim [char *] String representing the delimiter, which stops user input.
+ * @param tmp [char *] String holding the line read.
+ * @param fd [int] File descriptor of the temporary file.
+ * @return [int] Returns 0 in case of success, other integers in case of error.
+*/
 int	here_doc_fork(char *lim, char *tmp, int fd)
 {
 	pid_t	pid;

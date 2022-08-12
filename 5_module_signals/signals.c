@@ -6,13 +6,17 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 18:30:36 by vsimeono          #+#    #+#             */
-/*   Updated: 2022/08/09 14:10:53 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:59:49 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 
-/*   Check README.md for Signal Translation and Architecture  */
+/**
+ * In case SIGINT occured, a new prompt is given and the line is not added to
+ * the history.
+ * @param signum [int] Number specifying which signal occured.
+*/
 void	signal_handler_parent(int signum)
 {
 	if (signum == SIGINT)

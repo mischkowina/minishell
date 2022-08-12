@@ -6,23 +6,29 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 15:59:34 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 13:21:24 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:32:30 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
+/**
+ * Function to reproduce the behaviour of cd. If there is no further argument,
+ * it changes the directory to the HOME directory. Else it changes to the
+ * directory specified by the argument. Also updates the ENV variables PWD and
+ * OLDPWD.
+ * @param env [t_env *] List containing the environmental variables.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @param flag_pipe [int] Signifies if there is a pipe, since some builtins 
+ * are not executed when piping.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	ft_cd(t_env *env, t_parser *parser, int flag_pipe)
 {
 	if (flag_pipe == 1)
 		return (1);
 	if (!parser->command[1])
-	{
-		if (cd_home(parser, env) == 0)
-			return (0);
-		else
-			return (1);
-	}
+		return (cd_home(parser, env));
 	else
 	{
 		if (chdir(parser->command[1]) < 0)
@@ -35,6 +41,13 @@ int	ft_cd(t_env *env, t_parser *parser, int flag_pipe)
 	return (1);
 }
 
+/**
+ * Function changes into HOME directory and updates the ENV variables. 
+ * If HOME is not set, it throws an error.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @param env [t_env *] List containing the environmental variables.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	cd_home(t_parser *parser, t_env *env)
 {
 	t_env	*tmp;
@@ -50,9 +63,17 @@ int	cd_home(t_parser *parser, t_env *env)
 		ft_error(parser, 1, tmp->bash_v_content, ": No such directory");
 		return (0);
 	}
+	cd_update_env(parser, env);
 	return (1);
 }
 
+/**
+ * Function to update the ENV variables PWD and OLDPWD after a change of 
+ * directory.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @param env [t_env *] List containing the environmental variables.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	cd_update_env(t_parser *parser, t_env *env)
 {
 	t_env	*tmp;

@@ -6,12 +6,19 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 15:48:05 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 15:00:29 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:32:56 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
+/**
+ * Function to reproduce the behaviour of pwd and print the current working
+ * directory. Gets the current working directory with getcwd() and prints
+ * that value either into the outfile or into the pipe.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	ft_pwd(t_parser *parser)
 {
 	char	*buff;

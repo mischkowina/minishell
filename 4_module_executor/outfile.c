@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:54:57 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 10:27:02 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:53:52 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	is_outfile(char *line)
 
 /**
  * Is called if there is an outfile to be opened with the name specified in file.
- * First, it checks if there was a previous, invalid outfile - in that case, the
- * new file is not opened.
+ * First, it checks if there was a previous, invalid infile or outfile - in that
+ * case, the new file is not opened.
  * If there was a previous valid outfile, the old one is closed.
  * Then, it checks whether the file already exists. If yes, it tries to write in
  * that file. Else, it opens a new file to write with the required access mode.

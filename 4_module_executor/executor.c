@@ -6,19 +6,18 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:16:58 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/11 15:32:30 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:55:56 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
 /**
- * Iterates through every section (provided as an array of lists).
- * For each section, initializes file descriptors: input to STDIN, output to 
- * either STDOUT (for the last command section) or STDIN (for all command 
- * sections in front of pipes).
- * Then calls the preparation function exec_prep() and the execution function
- * exec_section() for every section.
+ * Stores the orginal STDIN and STDOUT in the parser struct.
+ * Iterates through every section of the input (provided as an array of lists).
+ * For each section, initializes file descriptors, prepares the execution and 
+ * then calls the execution function. Afterwards, it cleans up using the
+ * end_execution function.
  * @param data [t_data *] Struct containing all minishell variables.
  * @return [int] 1 at success, 0 at failure.
 */
@@ -49,10 +48,9 @@ int	executor(t_data *data)
 }
 
 /**
- * Checks all list elements of the current section. When it identifies in- or 
- * outfiles (signalized by <, <<, >> or >), it opens the respective file.
- * Counts the number non-file elements (ergo commands & options) and calls a 
- * function to create a string array containing those.
+ * For the current input section, this function prepares the execution by 
+ * identifying and opening in- and outfiles (in open_files_count_cmds) and
+ * creating the command array to be handed over to execve() during execution.
  * @param sec [t_list *] List containing each word of the current input section.
  * @param parser [t_parser *] Struct containing parsed input & relevant values.
  * @return [int] 1 at success, 0 at failure.
@@ -70,7 +68,11 @@ int	exec_prep(t_list *sec, t_parser *parser)
 }
 
 /**
- * TBD:
+ * Opens a pipe and duplicates the input_fd into STDIN, if existing.
+ * Checks if the command is a builtin, if not it calls fork_section
+ * to fork and execute the binary. Else, the builtin is executed.
+ * Afterwards, the pipe's read end is duplicated into STDIN, in
+ * case there is not outfile. Lastly, open fds are closed.
  * @param data [t_data *] Struct containing all minishell variables.
  * @return [int] 1 at success, 0 at failure.
 */
@@ -104,7 +106,11 @@ int	exec_section(t_data *data)
 }
 
 /**
- * TBD:
+ * Duplicates the infile into STDIN and the outfile into STDOUT, 
+ * given there is an in- or outfile. Checks if the command is a 
+ * builtin, if not it calls fork_last_section to fork and execute 
+ * the binary. Else, the builtin is executed. Lastly, open fds are 
+ * closed.
  * @param data [t_data *] Struct containing all minishell variables.
  * @return [int] 1 at success, 0 at failure.
 */
@@ -137,6 +143,12 @@ int	exec_last_section(t_data *data)
 	return (1);
 }
 
+/**
+ * Cleanup function to restore STDIN and STDOUT to its original state and 
+ * free the command line input that is not needed anymore.
+ * @param parser [t_parser *] Struct containing parsed input & relevant values.
+ * @return [int] 1 at success, 0 at failure.
+*/
 int	end_execution(t_parser *parser)
 {
 	restore_std_fds(parser);
