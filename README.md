@@ -27,4 +27,4 @@ Press `CTRL+D` or enter `exit` to terminate the program.
 ## Learn more
 You can find some of our notes and the resources we used in `resources.md`. In case you find a bug or a leak, let me know. 
 
-# Enjoy our minishell.
+# Enjoy our minishell!
