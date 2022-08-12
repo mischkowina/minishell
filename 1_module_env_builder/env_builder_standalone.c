@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env_builder_standalone.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:06:17 by vsimeono          #+#    #+#             */
-/*   Updated: 2022/08/10 14:39:13 by vsimeono         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:53:48 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_builder.h"
 
-/* Creating the ENV Linked List with the Arguments from the ENV */
+/**
+ * Function to store the content of envp in a linked list.
+ * @param envp [char **] Array of strings containing an environmental variable
+ * each.
+ * @return [t_env *] The first element of the new ENV list.
+ */
 t_env	*create_env_list(char **envp)
 {
 	t_env	*env_list;
@@ -32,10 +37,17 @@ t_env	*create_env_list(char **envp)
 			array = NULL;
 		}
 	}
+	update_shell_level(env_list);
 	return (env_list);
 }
 
-/* Creating One Element with Two Variables to Place in a Linked List */
+/**
+ * Function to create a list element for the ENV list from an array of
+ * two strings - the variable name and the variable content.
+ * @param value [char **] Array of two strings containing the name and
+ * the content of an env variable.
+ * @return [t_env *] List element created from the string array.
+*/
 t_env	*create_env_element(char **value)
 {
 	t_env	*element;
@@ -52,7 +64,11 @@ t_env	*create_env_element(char **value)
 	return (element);
 }
 
-/* Adding Elements to the back of the ENV List (Modified ft_lstadd_back) */
+/**
+ * Function to add an env element to the back of the ENV list.
+ * @param env_list [t_env **] Pointer to the first element of the list.
+ * @param new [t_env *] New element to be added to the end.
+*/
 void	ft_lstadd_back_env_element(t_env **env_list, t_env *new)
 {
 	t_env	*temp;
@@ -66,4 +82,23 @@ void	ft_lstadd_back_env_element(t_env **env_list, t_env *new)
 	}
 	else
 		*env_list = new;
+}
+
+/**
+ * Function to update the SHLVL variable to always display the number of
+ * stacked shells currently running.
+ * @param env [t_env *] List containing the environmental variables.
+*/
+void	update_shell_level(t_env *env)
+{
+	t_env	*tmp;
+	int		i;
+
+	tmp = get_env(env, "SHLVL");
+	if (!tmp)
+		return ;
+	i = ft_atoi(tmp->bash_v_content);
+	i++;
+	free(tmp->bash_v_content);
+	tmp->bash_v_content = ft_itoa(i);
 }
