@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 18:14:26 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/12 15:00:17 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:05:07 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ int	main(int argc, char **argv, char **envp)
 	exit(g_exit_status);
 }
 
-/* Initialises All Data */
+/**
+ * Initializes the t_data struct.
+ * @param envp [char **] Array of strings containing an environmental 
+ * variable each.
+ * @return [t_data *] Struct to hold all important variables.
+*/
 t_data	*initialiser(char **envp)
 {
 	t_data	*data;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 14:41:51 by vsimeono          #+#    #+#             */
-/*   Updated: 2022/08/10 15:14:31 by vsimeono         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:24:18 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ static int	parser_error(t_data *data, t_list **lexar, char **line,
 	return (0);
 }
 
-/* Placing the Bash Variable PATH from the ENV into a 2D Char Array */
+/**
+ * Function to split the PATH env variable into a string array.
+ * @param to_env_list [t_env **] Address of the ENV list.
+ * @return [char **] String array containing PATH.
+*/
 static char	**get_paths_array(t_env **to_env_list)
 {
 	char	*path;
@@ -63,8 +67,14 @@ static char	**get_paths_array(t_env **to_env_list)
 	return (paths);
 }
 
-/* Sending Input in order to Construct: The ENV 2D Char Array, /
-the Parser, The Command List, and Freeing the Parser */
+/**
+ * Function to parse the input. Calls functions to expand the environmental
+ * variables, to remove quotes, and to split the string into the right format
+ * for the executor. Afterwards, it frees the lexer list.
+ * @param data [t_data *] Struct to store all minishell variables.
+ * @param line [char *] String read from the command line.
+ * @return [int] 1 or none at success, 0 at failure.
+*/
 int	parser(t_data *data, char **line)
 {
 	char	*tmp;

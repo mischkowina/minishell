@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 18:13:48 by smischni          #+#    #+#             */
-/*   Updated: 2022/08/10 18:13:50 by smischni         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:31:06 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,12 @@ static char	*check_and_get_env(t_data *data, char *input, int idx)
 		return (replace_str_env(data, input, idx));
 }
 
-/* Checks All ENV Variables in the String \
-   and Resolves them */
+/**
+ * Function to expand ENV variables in the input to the respective content.
+ * @param data [t_data *] Struct containing all minishell variables.
+ * @param input [char **] String array containing the command line input.
+ * @return [int] 1 or none at success, 0 at failure.
+*/
 int	env_resolver(t_data *data, char **input)
 {
 	int		i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:20:40 by vsimeono          #+#    #+#             */
-/*   Updated: 2022/08/10 14:51:21 by vsimeono         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:27:50 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ char	*str_replace_str_at(char *str, int idx, int length, char *replacement)
 	return (new_str);
 }
 
-/* Returns New Allocated ENV Variable Value String from Name  */
+/**
+ * Returns the content of the specified ENV variable, if existing.
+ * @param to_env_list [t_env **] Adress of the ENV list.
+ * @param env [char *] String containing the name of the ENV variable.
+ * @return [char *] String containing the content of the ENV variable.
+*/
 char	*get_env_value(t_env **to_env_list, char *env)
 {
 	t_env	*temp;
